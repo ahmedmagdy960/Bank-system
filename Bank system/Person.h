@@ -1,5 +1,8 @@
 #pragma once
+#include <iostream>
 #include "Validation.h"
+#include <vector>
+
 class Person
 {
 

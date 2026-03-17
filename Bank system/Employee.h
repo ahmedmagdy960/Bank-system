@@ -1,6 +1,7 @@
 #pragma once
+#include <iostream>
 #include "Person.h"
-class Employee : Person 
+class Employee : public Person
 {
 	double salary;
 public:
@@ -14,7 +15,7 @@ public:
 		if (Validation::validateSalary(salary)) {
 			this->salary = salary;
 		}
-		
+
 	}
 	double getSalary() {
 		return salary;
@@ -24,5 +25,43 @@ public:
 		cout << "Salary: " << salary << endl;
 	}
 
+	static void deallcateAllEmployees() {
+
+		delete allEmployees;
+
+	}
+
+	void addClient(Client& client) {
+		allClients.push_back(client);
+
+	}
+	Client* searchClient(int id) {
+		for (cIt = allClients.begin(); cIt != allClients.end(); cIt++) {
+			if (cIt->getId() == id) {
+				return &(*cIt);
+			}
+
+		}
+		return nullptr;
+
+	}
+
+	void listClient() {
+		for (cIt = allClients.begin(); cIt != allClients.end(); cIt++) {
+			cIt->displayInfo();
+		}
+	
+	}
+	void editClient(int id, string name, string pass, double balance) {
+		Client* c = searchClient(id);
+		if (c != nullptr) {
+			c->setName(name);
+			c->setPass(pass);
+			c->setBalance(balance);
+		}
+	}
+
 };
+
+static vector<Employee>* allEmployees= new vector<Employee>;
 

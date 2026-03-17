@@ -1,11 +1,8 @@
-#include <iostream>
-#include "Validation.h"
-using namespace std;
-
+#include "screens.h"
 
 
 int main()
 {
-   
+	screens::runApp();
 }
 

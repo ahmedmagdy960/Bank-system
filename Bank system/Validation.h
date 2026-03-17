@@ -1,18 +1,11 @@
 #pragma once
+#include <iostream>
 #include <string>
 using namespace std;
 class Validation
 {
 public:
-	/// <summary>
-	/// return true if the name size between 3 and 20 and all char are alpha
-	/// otherwise return fals
-	/// </summary>
-	/// 
-	/// <param name="userName"></param>
-	/// <returns>
-	/// bool
-	/// </returns>
+	
 
 	static bool validateName(string name) {
 		if (name.size() < 3 || name.size() > 20) {
@@ -31,7 +24,7 @@ public:
 	}
 
 	static bool validatePass(string pass) {
-		if (pass.length() < 8 || pass.length() > 20) {
+		if (pass.length() >= 8 && pass.length() <= 20) {
 			return false;
 		}
 		
@@ -46,11 +39,7 @@ public:
 	}
 
 	static bool validateBalance(double balance) {
-		if (balance < 1500) {
-			
-			return false;
-		}
-		return true;
+		return balance >= 1500;
 	}
 
 	static bool validateSalary(double salary) {
@@ -59,6 +48,64 @@ public:
 		}
 		return true;
 	}
+
+	static string enterName(string message) {
+		string name;
+		do {
+			cout << message;
+			getline(cin, name);
+		} while (!validateName(name));
+		return name;
+	}
+
+	static string enterPass(string message) {
+		string pass;
+		do {
+			cout << message;
+			getline(cin, pass);
+		} while (!validatePass(pass));
+		return pass;
+	}
+
+	static double enterBalance(string message) {
+		double balance;
+		do {
+			cout << message;
+			cin >> balance;
+		} while (!validateBalance(balance));
+		return balance;
+	}
+
+	static double enterSalary(string message) {
+		double salary;
+		do {
+			cout << message;
+			cin >> salary;
+		} while (!validateSalary(salary));
+		return salary;
+	}
+
+	
+
+	static int getIntNumber(string message) {
+		int number;
+		while (true) {
+			cout << message;
+			cin >> number;
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << "Invalid input. Please enter a valid integer." << endl;
+			}
+			else {
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				return number;
+			}
+		}
+	}
+
+	
+
 
 	
 };
