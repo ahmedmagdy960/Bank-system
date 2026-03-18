@@ -1,57 +1,45 @@
 #pragma once
 #include "DataSourceInterface.h"
-#include "FilesHeleper.h"
-class FilesManager :public DataSourceInterface
+#include "FilesHelper.h"
+class FileManager : public DataSourceInterface
 {
 public:
-	void addClient(Client obj) {
-		FilesHeleper::saveClient(obj);
-	}
-	void addEmployee(Employee obj) {
-		FilesHeleper::saveEmployee(obj);
-	}
-	void addAdmin(Admin obj) {
-		FilesHeleper::saveAdmin(obj);
-	}
-	void getAllClients() {
-		FilesHeleper::getAllClients();
-	}
-	void getAllEmployees() {
-		FilesHeleper::getAllEmployees();
-	}
-	void getAllAdmins() {
-		FilesHeleper::getAllAdmins();
-	}
-	void removeAllClients() {
-		FilesHeleper::clearFile(C_File_Path , C_last_Id_Path , 0);
-		
-	}
-	void removeAllEmployees() {
-		
-		FilesHeleper::clearFile(E_File_Path, E_last_Id_Path, 100);
-	}
-	void removeAllAdmins() {
-		FilesHeleper::clearFile(A_File_Path, A_last_Id_Path, 1000);
+	static void addClient(Client obj) {
+		FilesHelper::saveClient(obj);
 	}
 
-	static void updateClients() {
-		FilesHeleper::clearFile(C_File_Path, C_last_Id_Path, 0);
-		for (cIt = allClients.begin(); cIt != allClients.end(); cIt++) {
-			FilesHeleper::saveClient(*cIt);
-		}
+	static void addEmployee(Employee obj) {
+		FilesHelper::saveEmployee(obj);
 	}
-	static void updateEmployees() {
-		FilesHeleper::clearFile(E_File_Path, E_last_Id_Path, 100);
-		for (eIt = allEmployee.begin(); eIt != allEmployee.end(); eIt++) {
-			FilesHeleper::saveEmployee(*eIt);
-		}
+
+	static void addAdmin(Admin obj) {
+		FilesHelper::saveAdmin(obj);
 	}
-	static void updateAdmins() {
-		FilesHeleper::clearFile(A_File_Path, A_Last_Id_Path, 1000);
-		for (aIt = allAdmins.begin(); aIt != allAdmins.end(); aIt++) {
-			FilesHeleper::saveAdmin(*aIt);
-		}
+
+	static void getAllClients() {
+		FilesHelper::getAllClients();
 	}
+
+	static void getAllEmployees() {
+		FilesHelper::getAllEmployees();
+	}
+
+	static void getAllAdmins() {
+		FilesHelper::getAllAdmins();
+	}
+
+	static void removeAllClients() {
+		FilesHelper::clearFile(C_FILE_PATH, CID_FILE_PATH);
+	}
+
+	static void removeAllEmployees() {
+		FilesHelper::clearFile(E_FILE_PATH, EID_FILE_PATH);
+	}
+
+	static void removeAllAdmins() {
+		FilesHelper::clearFile(A_FILE_PATH, EID_FILE_PATH);
+	}
+
 
 	static void getAllData() {
 		getAllClients();
@@ -59,6 +47,24 @@ public:
 		getAllAdmins();
 	}
 
+	static void updateClients() {
+		removeAllClients();
+		for (cIt = allClients.begin(); cIt != allClients.end(); cIt++) {
+			addClient(*cIt);
+		}
+	}
+	static void updateEmployees() {
+		removeAllEmployees();
+		for (eIt = allEmployees.begin(); eIt != allEmployees.end(); eIt++) {
+			addEmployee(*eIt);
+		}
+	}
+	static void updateAdmins() {
+		removeAllAdmins();
+		for (aIt = allAdmins.begin(); aIt != allAdmins.end(); aIt++) {
+			addAdmin(*aIt);
+		}
+	}
 
 };
 

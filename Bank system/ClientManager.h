@@ -1,127 +1,127 @@
 #pragma once
-#include "FilesManager.h"
-class ClientManager
+#include "FileManager.h"
+class ClientManger
 {
-	static void prientClientMenu() {
+	static void printClientMenu() {
 		system("cls");
-		cout << "(1) Display my info " << endl;
+		cout << "(1) Display my info" << endl;
 		cout << "(2) Check balance" << endl;
 		cout << "(3) Update Password" << endl;
 		cout << "(4) Withdraw" << endl;
 		cout << "(5) Deposit" << endl;
-		cout << "(6) Transfer" << endl;
+		cout << "(6) Transfer amount" << endl;
 		cout << "(7) Logout\n" << endl;
-
 	}
+	//static void back(Client* client) {
+	//	cout << endl;
+	//	system("pause");
+	//	clientOptions(client);
+	//}
 
 	static void back_exit(Client* client) {
-		int c; 
+		int c;
 		do {
-			cout << "\n\n(1) Option\t\t(0) Exit\n";
-			c = Validation::getIntNumber("Enter your choice: ");
+			cout << "\n\n(1) Options\t\t(0) Exit\n";
+			c = Validation::getIntegerNumber("..::Enter Choice: ");
 			switch (c)
 			{
-			case 0 :
-					exit(0);
-					break;
+			case 0:
+				exit(0);
+				break;
 			case 1:
 				system("cls");
 				clientOptions(client);
 				break;
 			default:
-				cout << "Invalid choice. Please try again." << endl;
+				cout << "Invalid!" << endl;
 				break;
 			}
-
 		} while (c < 0 || c > 1);
 	}
 
 public:
-
-
 	static Client* login(int id, string password) {
-
 		for (cIt = allClients.begin(); cIt != allClients.end(); cIt++) {
-			if (cIt->getId() == id && cIt->getPass() == password) {
-				return &(*cIt);
+			if (cIt->getId() == id && cIt->getPassword() == password) {
+				return cIt._Ptr;
 			}
 		}
 		return nullptr;
 	}
 
 	static void updatePassword(Person* person) {
+		// ask user for new password 
+		// validate on password
 		string newPass;
 		do {
-			cout << "Enter new password: ";
+			cout << "New password: ";
 			cin >> newPass;
-			while (!Validation::validatePass(newPass)) {
-				person->setPassword(newPass);
-				cout << "password updated successfully." << endl;
-			}
-		}
+		} while (!Validation::validatePass(newPass));
+		// set new password
+		person->setPassword(newPass);
+		cout << "Password updated" << endl;
 	}
 
 	static bool clientOptions(Client* client) {
-			prientClientMenu();
-			int choice;
-			double amount;
-			int id;
-			Client* recipient;
-			Employee e;
-			cout << "Enter your choice: ";
-			cin >> choice;
-			switch (choice) {
-			case 1:
-				system("cls");
-				client->display();
-				break;
-			case 2:
-				system("cls");
-				cout << "Your balance is: " << client->getBalance() << endl;
-				break;
-			case 3:
-				system("cls");
-				updatePassword(client);
-				FilesManager::updateClients();
-				break;
-			case 4:
-				system("cls");
-				amount = Validation::getDoubleNumber("Enter amount to withdraw: ");
-				client->withdraw(amount);
-				FilesManager::updateClients();
-				break;
-			case 5:
-				system("cls");
-				amount = Validation::getDoubleNumber("Enter amount to deposit: ");
-				client->deposit(amount);
-				FilesManager::updateClients();
-				break;
-				
-			case 6:
-				system("cls");
-				id = Validation::getIntNumber("Enter recipient client ID: ");
-				recipient = e.searchClient(id);
-				if (recipient != nullptr) {
-					amount = Validation::getDoubleNumber("Enter amount to transfer: ");
-					client->transfer(*recipient, amount);
-					
-				}
-				else {
-					cout << "Recipient client not found." << endl;
-				}
-				break;
-			case 7:
-				return false;
-				break;
-			default:
-				system("cls");
-				clientOptions(client);
-				return true;
-			}
-			back_exit(client);
-			return true;
+		printClientMenu();
+		int choice;  // make sure you vlidate this chioce // done by defualt case
+		double amount;
+		int id;
+		Client* recipient;
+		Employee e;
 
+		cout << "Your choice: ";
+		cin >> choice;
+
+		switch (choice) {
+			// after each case 
+		case 1:
+			system("cls");
+			client->display();
+			break;
+		case 2: // check balance
+			system("cls");
+			client->checkBalance();
+			break;
+		case 3: // update password
+			system("cls");
+			updatePassword(client);
+			break;
+		case 4: // Withdraw 
+			system("cls");
+			// make sure that the user will enter only double number
+			amount = Validation::getDoubleNumber("Enter amount: ");
+			client->withdraw(amount);
+			break;
+		case 5: // deposit
+			system("cls");
+			amount = Validation::getDoubleNumber("Enter amount: ");
+			client->deposit(amount);
+			break;
+		case 6: //Transfer amount
+			system("cls");
+			id = Validation::getIntegerNumber("Enter recipient Id: ");
+			recipient = e.searchClient(id);
+			if (recipient) {
+				amount = Validation::getDoubleNumber("Enter amount: ");
+				client->transferTo(amount, *recipient);
+			}
+			else {
+				cout << "Account not founded!" << endl;
+			}
+			break;
+		case 7:
+			return false;
+			break;
+
+		default:
+			system("cls");
+			//cout << "Invalid choice!" << endl;
+			clientOptions(client);
+			return true;
+		}
+		back_exit(client);
+		return true;
 	}
-	
 };
 

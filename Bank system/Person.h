@@ -1,52 +1,26 @@
 #pragma once
-#include <iostream>
 #include "Validation.h"
-#include <vector>
 
 class Person
 {
-
 protected:
 	int id;
 	string name;
 	string password;
 
 public:
+	//Constructors
 	Person() {
 		id = 0;
 	}
-	Person(int id, string name, string pass) {
-		this->id = id;
-		//this->name = name;
-		//this->password = password;
 
+	Person(int id, string name, string password) {
+		setId(id);
 		setName(name);
-		setPass(pass);
+		setPassword(password);
 	}
 
-	void setId(int id) {
-		this->id = id;
-	}
-
-
-	void setName(string name) {
-		if (Validation::validateName(name)) {
-						this->name = name;
-
-		}
-		else {
-			this->name = "invalid name";
-		}
-	}
-	void setPass(string pass) {
-		if (Validation::validatePass(pass)) {
-			this->password = pass;
-		}
-		else {
-			this->password = "invalid password";
-		}
-	}
-
+	// getters
 	int getId() {
 		return id;
 	}
@@ -55,16 +29,34 @@ public:
 		return name;
 	}
 
-	string getPass() {
+	string getPassword() {
 		return password;
 	}
 
-	virtual void displayInfo() {
-		cout << "ID: " << id << endl;
-		cout << "Name: " << name << endl;
-		cout << "Password: " << password << endl;
+	//setters
+	void setId(int id) {
+		this->id = id;
 	}
 
+	void setName(string name) {
+		//validate on name first 
+		if (Validation::validateName(name)) {
+			this->name = name;
+		}
+
+	}
+
+	void setPassword(string password) {
+		if (Validation::validatePass(password)) {
+			this->password = password;
+		}
+	}
+
+	void display() {
+		cout << "id: " << id << endl;
+		cout << "name: " << name << endl;
+		cout << "password: " << password << endl;
+	}
 
 };
 

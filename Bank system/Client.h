@@ -1,62 +1,75 @@
 #pragma once
-#include <iostream>
 #include "Person.h"
+#include<vector>
+#include<iterator>
 class Client : public Person
 {
-	double balance;	
-
+private:
+	double balance;
 public:
-	Client(): Person() {
+	Client() : Person() {
 		balance = 0;
 	}
-
 	Client(int id, string name, string password, double balance) : Person(id, name, password) {
 		setBalance(balance);
-	}
-
-	void setBalance(double balance) {
-		if (Validation::validateBalance(balance)) {
-			this->balance = balance;
-		}
-		
 	}
 
 	double getBalance() {
 		return balance;
 	}
 
+	void setBalance(double balance) {
+		if (Validation::validateBalance(balance)) {
+			this->balance = balance;
+		}
+	}
+
 	void deposit(double amount) {
 		if (amount > 0) {
-			balance+= amount;
-			cout << "Deposit successful. New balance: " << balance << endl;
+			balance += amount;
+			cout << "Success deposit" << endl;
 		}
-		cout << "Invalid amount. Deposit failed." << endl;
+		else {
+			cout << "minmum amount is 1EGY" << endl;
+		}
 	}
-
 	void withdraw(double amount) {
-		if (amount > 0 && amount <= balance) {
+		if (amount <= balance) {
 			balance -= amount;
-			cout << "Withdrawal successful. New balance: " << balance << endl;
+			cout << "Success withdraw" << endl;
 		}
 		else {
-			cout << "Invalid amount or insufficient funds. Withdrawal failed." << endl;
+			cout << "Amount exceeded balance" << endl;
 		}
 	}
-
-	void transfer(Client& recipient, double amount) {
-		if (amount > 0 && amount <= balance) {
+	void transferTo(double amount, Client& recipient) {
+		// withdrow
+		if (amount <= balance) {
 			balance -= amount;
-			recipient.balance +=amount;
-			cout << "Transfer successful. New balance: " << balance << endl;
+			//deposit for  recipient
+			if (amount > 0) {
+				recipient.balance += amount;
+				cout << "Success transfer" << endl;
+			}
+			else {
+				cout << "Minmum amount is 1EGY" << endl;
+			}
 		}
 		else {
-			cout << "Invalid amount or insufficient funds. Transfer failed." << endl;
+			cout << "Amount exceeded balance" << endl;
 		}
+
+
 	}
 
-	void displayInfo() {
-		Person::displayInfo();
+	void checkBalance() {
+		cout << "Balance: " << getBalance() << endl;
+	}
+
+	void display() {
+		Person::display();
 		cout << "Balance: " << balance << endl;
+		cout << "\n===============\n" << endl;
 	}
 };
 

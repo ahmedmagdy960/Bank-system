@@ -1,57 +1,72 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include "Admin.h"
-#include "Client.h"
-#include <sstream>
+#include"Admin.h"
+#include<sstream>
 class Parser
 {
-public:
+private:
 	static vector<string> split(string line) {
-		vector<string> parts;
-		string part;
-		stringstream ss(line);
-		while (getline(ss, part, '|')) {
-			parts.push_back(part);
+		// id/name/pass/balance
+		vector<string> info;
+		stringstream stream(line);
+		string token;
+		while (getline(stream, token, '/')) {
+			info.push_back(token);
 		}
-		return parts;
+		return info;
 	}
+public:
 
 	static Client parseToClient(string line) {
-		vector<string> parts = split(line);
+		// 0    1    2     3
+		// id/name/pass/balance
+		Client clinet; // => id , name , pass , balance
 
-		Client c;
-		c.setId(stoi(parts[0]));
-		c.setName(parts[1]);
-		c.setPass(parts[2]);
-		c.setBalance(stod(parts[3]));
+		vector<string> clientInfo;
 
-		return c;
+		clientInfo = split(line);
+		// 0     1       2       3
+		// id | name | pass |  balance
+
+		clinet.setId(stoi(clientInfo[0]));
+
+		clinet.setName(clientInfo[1]);
+
+		clinet.setPassword(clientInfo[2]);
+
+		clinet.setBalance(stod(clientInfo[3]));
+
+		return clinet;
 	}
 
 	static Employee parseToEmployee(string line) {
-		vector<string> parts = split(line);
+		// 0    1    2     3
+		// id/name/pass/balance
+		Employee emp;
 
-		Employee e;
-		e.setId(stoi(parts[0]));
-		e.setName(parts[1]);
-		e.setPass(parts[2]);
-		e.setSalary(stod(parts[3]));
+		vector<string> empInfo;
 
-		return e;
+		empInfo = split(line);
+
+		// 0    1    2     3
+		// id | name |pass |balance
+		emp.setId(stoi(empInfo[0]));
+		emp.setName(empInfo[1]);
+		emp.setPassword(empInfo[2]);
+		emp.setSalary(stod(empInfo[3]));
+		return emp;
 	}
 
 	static Admin parseToAdmin(string line) {
-		vector<string> parts = split(line);
-
-		Admin a;
-		a.setId(stoi(parts[0]));
-		a.setName(parts[1]);
-		a.setPass(parts[2]);
-		a.setSalary(stod(parts[3]));
-
-		return a;
+		// 0    1    2     3
+		// id/name/pass/balance
+		Admin admin;
+		vector<string> adminInfo;
+		adminInfo = split(line);
+		admin.setId(stoi(adminInfo[0]));
+		admin.setName(adminInfo[1]);
+		admin.setPassword(adminInfo[2]);
+		admin.setSalary(stod(adminInfo[3]));
+		return admin;
 	}
-
 };
 
